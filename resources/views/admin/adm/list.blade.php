@@ -146,9 +146,7 @@ function admin_stop(obj,id){
 		//此处请求后台程序，下方是成功后的前台处理……
 		$.post('{{adm_url("adm/del")}}',{id:id,status:0,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
 			if(d.status){
-				window.top.toastr.success(d.info);
-				layer.close(index);
-				settime_reload(toastr.options.timeOut);
+				settime_reload_by_notice(toastr.options.timeOut,d.info);
 				// layer.msg('已删除!',{icon:1,time:1000});
 			}else{
 				window.top.toastr.error(d.info);
@@ -168,9 +166,7 @@ function admin_start(obj,id){
 		//此处请求后台程序，下方是成功后的前台处理……
 		$.post('{{adm_url("adm/del")}}',{id:id,status:1,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
 			if(d.status){
-				window.top.toastr.success(d.info);
-				layer.close(index);
-				settime_reload(toastr.options.timeOut);
+				settime_reload_by_notice(toastr.options.timeOut,d.info);
 				// layer.msg('已删除!',{icon:1,time:1000});
 			}else{
 				window.top.toastr.error(d.info);

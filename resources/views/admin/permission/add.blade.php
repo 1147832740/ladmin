@@ -2,6 +2,7 @@
 
 @section('meta')
 @parent
+<meta name="_token" content="{{ csrf_token() }}"/>
 @endsection
 
 @section('title')
@@ -18,23 +19,45 @@
 <article class="cl pd-20">
 	<form action="{{adm_url('permission/add')}}" method="post" class="form form-horizontal" id="form-admin-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限资源路径：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="{{old('name')}}" placeholder="权限名称" id="name" name="name">
+				<input type="text" class="input-text" value="{{old('uri')}}" placeholder="uri" id="uri" name="uri">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限展示名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限标题：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="{{old('display_name')}}" placeholder="权限展示名称" id="display_name" name="display_name">
+				<input type="text" class="input-text" value="{{old('title')}}" placeholder="权限标题" id="title" name="title">
 			</div>
 		</div>
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限描述：</label>
-			<div class="formControls col-xs-8 col-sm-9">
-				<textarea name="description" id="description" cols="" rows="" class="textarea valid" placeholder="权限描述" dragonfly="true" onkeyup="textarealength(this,100)">{{old('description')}}</textarea>
-				<p class="textarea-numberbar"><em class="textarea-length">100</em>/100</p>
-			</div>
+			<label class="form-label col-xs-4 col-sm-3">是否展示：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+				<select class="select" name="isshow" size="1">
+					<option value="1">展示</option>
+					<option value="0">隐藏</option>
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">父级菜单：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+				<select class="select" name="pid" size="1">
+					<option value="0">根菜单</option>
+					@foreach($list as $v)
+					<option value="{{$v['id']}}">{{$v['title']}}</option>
+					@endforeach
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">状态：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+				<select class="select" name="status" size="1">
+					<option value="1">可用</option>
+					<option value="0">禁用</option>
+				</select>
+				</span> </div>
 		</div>
 		<div class="row cl">
 			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3">
@@ -66,14 +89,15 @@ $(function(){
 	
 	$("#form-admin-add").validate({
 		rules:{
-			name:{
+			uri:{
 				required:true
 			},
-			display_name:{
-				required:true
+			title:{
+				required:true,
+				maxlength:50
 			},
-			description:{
-				required:false
+			pid:{
+				required:true
 			}
 		},
 		onkeyup:false,
@@ -81,16 +105,13 @@ $(function(){
 		success:"valid",
 		error:"alert(1)",
 		submitHandler:function(form){
+			$(form).find("input[type='submit']").attr('disabled',true);
 			$(form).ajaxSubmit({success:function(d){
-				// console.log(d);
 				if(d.status){
-					window.top.toastr.success(d.info);
-					var index = parent.layer.getFrameIndex(window.name);
-					parent.$('.btn-refresh').click();
-					parent.layer.close(index);
-					setTimeout(function(){
-						window.top.location.reload();
-					},toastr.options.timeOut);
+					settime_reload_by_notice(toastr.options.timeOut,d.info);
+					// var index = parent.layer.getFrameIndex(window.name);
+					// parent.$('.btn-refresh').click();
+					// parent.layer.close(index);
 				}else{
 					window.top.toastr.error(d.info);
 				}
@@ -98,13 +119,6 @@ $(function(){
 		}
 	});
 });
-function textarealength(which,max) {
-	var maxChars = max;
-	if (which.value.length > maxChars)
-	which.value = which.value.substring(0,maxChars);
-	var curr = maxChars - which.value.length;
-	$('.textarea-length')[0].innerHTML = curr.toString()
-}
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 @endsection

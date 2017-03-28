@@ -18,6 +18,6 @@ class AdminModel extends Authenticatable
 
     public function role()
     {
-    	return $this->belongsToMany('App\Model\Role','adm_role_admin','admin_id','role_id');
+    	return $this->belongsToMany('App\Model\RoleModel','adm_role_admin','admin_id','role_id');
     }
 }

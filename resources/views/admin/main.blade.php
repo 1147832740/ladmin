@@ -142,7 +142,7 @@
 				<ul>
 					<li><a href="{{adm_url('role/index')}}" title="角色管理">角色管理</a></li>
 					<li><a href="{{adm_url('permission/index')}}" title="权限管理">权限管理</a></li>
-					<li><a href="{{adm_url('adm/list')}}" title="管理员列表">管理员列表</a></li>
+					<li><a href="{{adm_url('adm/index')}}" title="管理员列表">管理员列表</a></li>
 				</ul>
 			</dd>
 		</dl>
@@ -401,17 +401,6 @@ var _hmt = _hmt || [];
     };
 </script>
 @show
-
+<script type="text/javascript" src="{{asset('/admin_static/common_func.js')}}"></script>
 @section('javascript')
 @show
-
-@section('comment_func')
-<script type="text/javascript">
-	function settime_reload(timeout=0) {
-		setTimeout(function(){
-			window.top.location.reload();
-		},timeout);
-	}
-</script>
-@show
-

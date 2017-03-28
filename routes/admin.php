@@ -22,7 +22,7 @@ Route::group(['middleware'=>'auth:admin'],function(){
 	Route::get('/test/{id}', "Index@test");
 	
 	//管理员 相关
-	Route::get('/adm/list',"AdminController@index");
+	Route::get('/adm/index',"AdminController@index");
 	Route::get('/adm/add',"AdminController@add_show");
 	Route::post('/adm/add',"AdminController@add_exec");
 	Route::get('/adm/edit/{id}',"AdminController@edit_show");
@@ -35,11 +35,15 @@ Route::group(['middleware'=>'auth:admin'],function(){
 	Route::post('/role/add',"RoleController@add_exec");
 	Route::get('/role/edit/{id}',"RoleController@edit_show");
 	Route::post('/role/edit',"RoleController@edit_exec");
+	Route::post('/role/upd_status',"RoleController@upd_status");
 	Route::post('/role/del',"RoleController@del");
 
-	Route::get('/home', 'HomeController@index');
-
-	Route::get('/permission/index','PermissionController@index');
-	Route::get('/permission/add','PermissionController@add_show');
-	Route::post('/permission/add','PermissionController@add');
+	//权限 相关
+	Route::get('/permission/index',"PermissionController@index");
+	Route::get('/permission/add',"PermissionController@add_show");
+	Route::post('/permission/add',"PermissionController@add_exec");
+	Route::get('/permission/edit/{id}',"PermissionController@edit_show");
+	Route::post('/permission/edit',"PermissionController@edit_exec");
+	Route::post('/permission/upd_status',"PermissionController@upd_status");
+	Route::post('/permission/del',"PermissionController@del");
 });

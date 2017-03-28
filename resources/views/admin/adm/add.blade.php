@@ -151,10 +151,10 @@ $(function(){
 		success:"valid",
 		error:"alert(1)",
 		submitHandler:function(form){
+			$(form).find("input[type='submit']").attr('disabled',true);
 			$(form).ajaxSubmit({success:function(d){
 				if(d.status){
-					window.top.toastr.success(d.info);
-					settime_reload(toastr.options.timeOut);
+					settime_reload_by_notice(toastr.options.timeOut,d.info);
 					// var index = parent.layer.getFrameIndex(window.name);
 					// parent.$('.btn-refresh').click();
 					// parent.layer.close(index);

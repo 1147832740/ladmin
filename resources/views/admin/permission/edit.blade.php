@@ -17,12 +17,38 @@
 
 @section('content')
 <article class="cl pd-20">
-	<form action="{{adm_url('role/edit')}}" method="post" class="form form-horizontal" id="form-admin-add">
+	<form action="{{adm_url('permission/edit')}}" method="post" class="form form-horizontal" id="form-admin-add">
 		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>角色名称：</label>
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限资源路径：</label>
 			<div class="formControls col-xs-8 col-sm-9">
-				<input type="text" class="input-text" value="{{$name}}" placeholder="角色名称" id="name" name="name">
+				<input type="text" class="input-text" value="{{$uri}}" placeholder="uri" id="uri" name="uri">
 			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>权限标题：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{$title}}" placeholder="权限标题" id="title" name="title">
+			</div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">是否展示：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+				<select class="select" name="isshow" size="1">
+					<option @if($isshow==1) selected @endif value="1">展示</option>
+					<option @if($isshow==0) selected @endif value="0">隐藏</option>
+				</select>
+				</span> </div>
+		</div>
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3">父级菜单：</label>
+			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
+				<select class="select" name="pid" size="1">
+					<option @if($pid==0) selected @endif value="0">根菜单</option>
+					@foreach($list as $v)
+					<option @if($pid==$v['id']) selected @endif value="{{$v['id']}}">{{$v['title']}}</option>
+					@endforeach
+				</select>
+				</span> </div>
 		</div>
 		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">状态：</label>
