@@ -31,6 +31,12 @@
 			</div>
 		</div>
 		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-3"><span class="c-red">*</span>排序：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" class="input-text" value="{{old('sort')?:0}}" placeholder="排序" id="sort" name="sort">
+			</div>
+		</div>
+		<div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">是否展示：</label>
 			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
 				<select class="select" name="isshow" size="1">
@@ -45,7 +51,7 @@
 				<select class="select" name="pid" size="1">
 					<option value="0">根菜单</option>
 					@foreach($list as $v)
-					<option value="{{$v['id']}}">{{$v['title']}}</option>
+					<option value="{{$v['id']}}">@for($i=0;$i<$v['level']*5;$i++) - @endfor {{$v['title']}}</option>
 					@endforeach
 				</select>
 				</span> </div>
@@ -98,6 +104,9 @@ $(function(){
 			},
 			pid:{
 				required:true
+			},
+			sort:{
+				digits:true
 			}
 		},
 		onkeyup:false,

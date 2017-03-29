@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Model\RoleModel as Role;
+use \App\Model\PermissionModel as Permission;
 use Illuminate\Support\Facades\Route;
 
 class RoleController extends Controller
@@ -16,16 +17,14 @@ class RoleController extends Controller
     public function index(Request $request)
     {
     	$input=$request->all();
+    	// dd($input);
     	$where=array();
-    	foreach ($input as $key => $value) {
-    		if(!empty($value)){
-    			if($key=='name'){
-    				$where[]=array($key,'like','%'.$value.'%');
-    				continue;
-    			}
-    			$where[$key]=$value;
-    		}
-    	}
+		if(!empty($input['name'])){
+			if($key=='name'){
+				$where[]=array($key,'like','%'.$value.'%');
+			}
+		}
+		
     	$data['list']=Role::where($where)->get();
     	$data['input']=$input;
     	return view('admin.role.list',$data);
@@ -142,6 +141,22 @@ class RoleController extends Controller
     	}else{
     		return response()->json(['status'=>0,'info'=>'删除失败']);
     	}
+    }
+
+    /**
+     * 获取角色权限
+     */
+    public function permission($id)
+    {
+    	if(empty($id)){
+    		return response()->json(['status'=>0,'info'=>'丢失id']);
+    	}
+
+        $where=array(['pid',0]);
+    	$first=Permission::where($where)->orderBy('sort','desc')->get();
+        $data['permission']=get_permission_list($first,array());
+
+    	return view('admin.role.permission',$data);
     }
 
     /**

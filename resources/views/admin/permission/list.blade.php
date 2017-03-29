@@ -44,12 +44,13 @@
 			<table class="table table-border table-bordered table-bg">
 				<thead>
 					<tr>
-						<th scope="col" colspan="8">权限列表</th>
+						<th scope="col" colspan="9">权限列表</th>
 					</tr>
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" name="count_checkbox" value=""></th>
 						<th width="40">ID</th>
 						<th width="150">权限名称</th>
+						<th width="150">排序</th>
 						<th width="130">加入时间</th>
 						<th width="130">修改时间</th>
 						<th width="100">是否展示</th>
@@ -62,7 +63,8 @@
 					<tr class="text-c">
 						<td><input type="checkbox" value="{{$v['id']}}" name="id[]"></td>
 						<td>{{$v['id']}}</td>
-						<td>{{$v['title']}}</td>
+						<td style="text-align: left; padding-left: 50px;">@for($i=0;$i<$v['level']*5;$i++) - @endfor {{$v['title']}}</td>
+						<td>{{$v['sort']}}</td>
 						<td>{{$v['created_at']}}</td>
 						<td>{{$v['updated_at']}}</td>
 						<td class="td-status">@if($v['isshow'])<span class="label label-success radius">展示</span>@else<span class="label radius">隐藏</span>@endif</td>
@@ -120,7 +122,7 @@ function data_add(title,url,w,h){
 function data_del(obj,id){
 	layer.confirm('确认要删除吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
-		$.post('{{adm_url("role/del")}}',{id:id,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
+		$.post('{{adm_url("permission/del")}}',{id:id,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
 			if(d.status){
 				settime_reload_by_notice(toastr.options.timeOut,d.info);
 				// layer.msg('已删除!',{icon:1,time:1000});
@@ -139,7 +141,7 @@ function data_status(obj,id,status){
 	var str=status?'启用':'禁用';
 	layer.confirm('确认要'+str+'吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
-		$.post('{{adm_url("role/upd_status")}}',{id:id,status:status,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
+		$.post('{{adm_url("permission/upd_status")}}',{id:id,status:status,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
 			if(d.status){
 				settime_reload_by_notice(toastr.options.timeOut,d.info);
 				// layer.msg('已删除!',{icon:1,time:1000});
@@ -164,7 +166,7 @@ function more_del() {
 	}
 	layer.confirm('确认要删除所选吗？',function(index){
 		//此处请求后台程序，下方是成功后的前台处理……
-		$.post('{{adm_url("role/del")}}',{id:ids,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
+		$.post('{{adm_url("permission/del")}}',{id:ids,_token:$('meta[name="csrf-token"]').attr('content')},function(d){
 			if(d.status){
 				settime_reload_by_notice(toastr.options.timeOut,d.info);
 				// layer.msg('已删除!',{icon:1,time:1000});

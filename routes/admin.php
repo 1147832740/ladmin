@@ -14,7 +14,7 @@
 Route::get('/login', 'LoginController@login_show')->name('login');
 Route::post('/login', 'LoginController@login');
 
-Route::group(['middleware'=>'auth:admin'],function(){
+Route::group(['middleware'=>['auth:admin','menuPermission']],function(){
 	Route::get('/logout', 'LoginController@logout');
 	
 	Route::get('/', "Index@index");
@@ -37,6 +37,7 @@ Route::group(['middleware'=>'auth:admin'],function(){
 	Route::post('/role/edit',"RoleController@edit_exec");
 	Route::post('/role/upd_status',"RoleController@upd_status");
 	Route::post('/role/del',"RoleController@del");
+	Route::get('/role/permission/{id}',"RoleController@permission");
 
 	//权限 相关
 	Route::get('/permission/index',"PermissionController@index");

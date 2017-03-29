@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-03-24 10:50:13
+Date: 2017-03-29 18:46:13
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,8 +37,8 @@ CREATE TABLE `adm_admins` (
 -- ----------------------------
 -- Records of adm_admins
 -- ----------------------------
-INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'Cly0JQfWYB6wYtBYdGxyMSaPsWtSx0bacKF47WQMd6JrfeX8CivnawhUvsy3', null, '2017-03-22 05:21:57');
-INSERT INTO `adm_admins` VALUES ('12', 'test', 'test123', '测试账号', 'test@q.com', '0', null, '2017-03-23 07:52:17', '2017-03-23 18:38:14');
+INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'l3mYG8RxcEUDA1y4wglufskyUe1ldcgvf8zkuEFzW5PQoiyBo41Z2b5FpfXv', null, '2017-03-27 13:42:24');
+INSERT INTO `adm_admins` VALUES ('12', 'test', 'test123', '测试账号', 'test@q.com', '1', null, '2017-03-23 07:52:17', '2017-03-24 10:58:02');
 
 -- ----------------------------
 -- Table structure for adm_permissions
@@ -50,15 +50,23 @@ CREATE TABLE `adm_permissions` (
   `title` varchar(50) NOT NULL COMMENT '权限标题',
   `pid` int(11) NOT NULL DEFAULT '0' COMMENT '权限父级id',
   `isshow` tinyint(1) NOT NULL DEFAULT '1' COMMENT '是否在菜单栏展示',
+  `sort` int(11) DEFAULT '0' COMMENT '排序  倒序排序',
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态   1可用  0禁用',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='权限表（菜单表）';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='权限表（菜单表）';
 
 -- ----------------------------
 -- Records of adm_permissions
 -- ----------------------------
+INSERT INTO `adm_permissions` VALUES ('1', 'adm/index', '管理员列表', '2', '1', '3', '1', '2017-03-28 17:00:31', '2017-03-29 12:07:08');
+INSERT INTO `adm_permissions` VALUES ('2', 'adm', '管理员管理', '0', '1', '0', '0', '2017-03-28 17:02:20', '2017-03-28 17:07:22');
+INSERT INTO `adm_permissions` VALUES ('3', 'permission/index', '权限管理', '2', '1', '1', '0', '2017-03-29 11:45:03', '2017-03-29 17:07:39');
+INSERT INTO `adm_permissions` VALUES ('4', 'role/index', '角色管理', '2', '1', '2', '1', '2017-03-29 11:50:45', '2017-03-29 16:51:54');
+INSERT INTO `adm_permissions` VALUES ('9', 'article', '文章管理', '0', '1', '1', '1', '2017-03-29 16:58:29', '2017-03-29 17:03:33');
+INSERT INTO `adm_permissions` VALUES ('10', 'article/index', '文章列表', '9', '1', '1', '1', '2017-03-29 16:59:54', '2017-03-29 17:00:08');
+INSERT INTO `adm_permissions` VALUES ('11', 'user', '用户管理', '0', '1', '0', '1', '2017-03-29 17:02:49', '2017-03-29 17:02:49');
 
 -- ----------------------------
 -- Table structure for adm_roles
@@ -71,11 +79,13 @@ CREATE TABLE `adm_roles` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of adm_roles
 -- ----------------------------
+INSERT INTO `adm_roles` VALUES ('1', '超级管理员', '1', '2017-03-27 14:54:57', '2017-03-27 14:54:57');
+INSERT INTO `adm_roles` VALUES ('21', 'wqer', '1', '2017-03-28 15:20:56', '2017-03-28 15:20:56');
 
 -- ----------------------------
 -- Table structure for adm_role_admin

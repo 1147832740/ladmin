@@ -68,7 +68,9 @@
 						<td class="td-manage">
 							<a style="text-decoration:none" onClick="role_status(this,{{$v['id']}},@if($v['status']) 0 @else 1 @endif)" href="javascript:;" title="@if($v['status'])停用 @else 禁用 @endif"<i class="Hui-iconfont">@if($v['status']) &#xe631; @else &#xe6e1; @endif</i></a>
 							<a title="编辑" href="javascript:;" onclick="role_edit('角色编辑','{{adm_url('role/edit',$v['id'])}}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-							<a title="删除" href="javascript:;" onclick="role_del(this,{{$v['id']}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
+							<a title="删除" href="javascript:;" onclick="role_del(this,{{$v['id']}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
+							<a title="编辑权限" href="javascript:;" onclick="role_permission('编辑权限','{{adm_url('role/permission',$v['id'])}}','500','700')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑权限</a>
+						</td>
 					</tr>
 					@endforeach
 					<!-- <tr class="text-c">
@@ -178,6 +180,18 @@ function more_del() {
 	});
 }
 
+/*
+	参数解释：
+	title	标题
+	url		请求的url
+	id		需要操作的数据id
+	w		弹出层宽度（缺省调默认值）
+	h		弹出层高度（缺省调默认值）
+*/
+/*角色-增加*/
+function role_permission(title,url,w,h){
+	layer_show(title,url,w,h);
+}
 </script>
 <!--/请在上方写此页面业务相关的脚本-->
 @endsection

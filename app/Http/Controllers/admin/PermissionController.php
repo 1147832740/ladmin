@@ -26,9 +26,8 @@ class PermissionController extends Controller
                 $where[$key]=$value;
             }
         }
-        $first=Permission::where($where)->get();
-        $data['list']=$this->get_list($first,array());
-        dd($data);
+        $first=Permission::where($where)->orderBy('sort','desc')->get();
+        $data['list']=get_permission_list($first,array());
         $data['input']=$input;
         return view('admin.permission.list',$data);
     }
@@ -38,7 +37,9 @@ class PermissionController extends Controller
      */
     public function add_show()
     {
-        $data['list']=Permission::get();
+        $where=array(['pid',0]);
+        $first=Permission::where($where)->orderBy('sort','desc')->get();
+        $data['list']=get_permission_list($first,array());
         return view('admin.permission.add',$data);
     }
 
@@ -68,7 +69,10 @@ class PermissionController extends Controller
         }
         
         $detail=Permission::find($id);
-        $data['list']=Permission::get();
+
+        $where=array(['pid',0]);
+        $first=Permission::where($where)->orderBy('sort','desc')->get();
+        $data['list']=get_permission_list($first,array());
         if(empty($detail)){
             return response()->json(['status'=>0,'info'=>'找不到该数据!']);
         }
@@ -85,6 +89,7 @@ class PermissionController extends Controller
         $detail=Permission::find($data['id']);
         $detail['uri']=$data['uri'];
         $detail['title']=$data['title'];
+        $detail['sort']=$data['sort'];
         $detail['pid']=$data['pid'];
         $detail['isshow']=$data['isshow'];
         $detail['status']=$data['status'];
@@ -151,21 +156,7 @@ class PermissionController extends Controller
         }
     }
 
-    /**
-     * 获取父子级权限列表
-     */
-    public function get_list($data=array(),$new_data=array())
-    {
-        if(!empty($data)){
-            foreach ($data as $key => $value) {
-                $new_data[]=$value;
-                $res=Permission::where('pid',$value['id'])->get();
-                $new_data=$this->get_list($res,$new_data);
-            }
-        }else{
-            return $new_data;
-        }
-    }
+    
 
     /**
      * 验证结果
@@ -176,6 +167,7 @@ class PermissionController extends Controller
             'uri'          =>  'bail|required',
             'title'        =>  'bail|required|max:50',
             'pid'          =>  'bail|required',
+            'sort'         =>  'bail|integer',
         ]);
     }
 }
