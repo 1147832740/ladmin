@@ -16,15 +16,15 @@ class RoleModel extends Model
 	 */
 	public function permission()
 	{
-		return $this->belongsToMany('adm_role_permission','role_id','permission_id');
+		return $this->belongsToMany('App\Model\PermissionModel','adm_role_permission','role_id','permission_id');
 	}
 
 	/**
 	 * 角色与管理员   多对多
 	 * @return [type] [description]
 	 */
-	public function permission()
+	public function admin()
 	{
-		return $this->belongsToMany('adm_role_admin','role_id','admin_id');
+		return $this->belongsToMany('App\Model\AdminModel','adm_role_admin','role_id','admin_id');
 	}
 }

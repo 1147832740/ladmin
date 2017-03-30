@@ -54,6 +54,11 @@ var setting = {
 			rootPId: ""
 		}
 	},
+	// view: {
+	// 	fontCss: {
+	// 		fontSize:"15px"
+	// 	}
+	// }
 	callback: {
 		beforeClick: function(treeId, treeNode) {
 			var zTree = $.fn.zTree.getZTreeObj("tree");
@@ -85,10 +90,7 @@ function showCode(str) {
 $(document).ready(function(){
 	var t = $("#treeDemo");
 	t = $.fn.zTree.init(t, setting, zNodes);
-	// demoIframe = $("#testIframe");
-	// demoIframe.bind("load", loadReady);
-	// var zTree = $.fn.zTree.getZTreeObj("tree");
-	// zTree.selectNode(zTree.getNodeByParam("id",'11'));
+	t.expandAll(true);
 });
 </script>
 

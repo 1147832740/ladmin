@@ -62,14 +62,13 @@
 				</thead>
 				<tbody>
 					@foreach($list as $v)
-
 					<tr class="text-c">
 						<td><input type="checkbox" value="1" name=""></td>
 						<td>{{$v['id']}}</td>
 						<td>{{$v['username']}}</td>
 						<td>{{$v['nickname']}}</td>
 						<td>{{$v['email']}}</td>
-						<td>@foreach($v['role'] as $v2) {{$v2['name']}} @endforeach</td>
+						<td>{{$v['role']->pluck('name')->implode(',')}}</td>
 						<td>{{$v['created_at']}}</td>
 						<td>{{$v['updated_at']}}</td>
 						<td class="td-status">@if($v['status'])<span class="label label-success radius">已启用</span>@else<span class="label radius">已停用</span>@endif</td>

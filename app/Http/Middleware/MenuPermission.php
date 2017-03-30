@@ -23,7 +23,7 @@ class MenuPermission
         $action_method_str=str_replace('admin/','',$request->path());
         $info=Permission::where('uri',$action_method_str)->first();
 
-        if($user['id']!=1){
+        if($user['id']!=SUPER_ADMIN_ID){
             //判断用户是否具有当前路由权限
             if(!Gate::allows($action_method_str,$info)){
                 dd('error');
@@ -34,8 +34,8 @@ class MenuPermission
         
         $action_method=explode('/',$action_method_str);
         $request->attributes->set('action_method',$action_method_str);
-        $request->attributes->set('action_name',$action_method[0]);
-        $request->attributes->set('method_name',$action_method[1]);
+        $request->attributes->set('action_name',isset($action_method[0])?:'');
+        $request->attributes->set('method_name',isset($action_method[1])?:'');
 
         //获取菜单
         $menu=$this->get_menu($action_method_str,$info['pid']);

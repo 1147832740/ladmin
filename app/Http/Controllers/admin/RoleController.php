@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Model\RoleModel as Role;
 use \App\Model\PermissionModel as Permission;
+use \App\Model\AdminModel as Admin;
 use Illuminate\Support\Facades\Route;
 
 class RoleController extends Controller
@@ -25,7 +26,7 @@ class RoleController extends Controller
 			}
 		}
 		
-    	$data['list']=Role::where($where)->get();
+    	$data['list']=Role::where($where)->with('admin')->get();
     	$data['input']=$input;
     	return view('admin.role.list',$data);
     }
@@ -157,6 +158,50 @@ class RoleController extends Controller
         $data['permission']=get_permission_list($first,array());
 
     	return view('admin.role.permission',$data);
+    }
+
+    /**
+     * 获取属于该角色的管理员
+     */
+    public function admin($id)
+    {
+    	if(empty($id)){
+    		return response()->json(['status'=>0,'info'=>'丢失id']);
+    	}
+
+    	$role=Role::find($id);
+    	$data['role_admin']=$role->admin()->pluck('adm_admins.id');
+    	$data['admin']=Admin::where('id','!=',SUPER_ADMIN_ID)->get();
+    	$data['id']=$id;
+
+    	return view('admin.role.admin',$data);
+    }
+
+    /**
+     * 绑定角色
+     */
+    public function admin_attach(Request $request)
+    {
+    	$input=$request->all();
+    	if((isset($input['admin_id']) && !is_array($input['admin_id'])) || empty($input['id'])){
+    		return response()->json(['status'=>0,'info'=>'数据错误']);
+    	}
+
+    	$role=Role::find($input['id']);
+
+    	$data=[];
+    	if(isset($input['admin_id'])){
+	    	foreach ($input['admin_id'] as $key => $value) {
+	    		$data[$value]=['updated_at' => date("Y-m-d H:i:s")];
+	    	}
+    	}    	
+
+    	$res=$role->admin()->sync($data);
+    	if($res){
+    		return response()->json(['status'=>1,'info'=>'修改成功']);
+    	}else{
+    		return response()->json(['status'=>0,'info'=>'修改失败']);
+    	}
     }
 
     /**

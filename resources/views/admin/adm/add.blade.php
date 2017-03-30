@@ -67,17 +67,6 @@
 				<input type="text" class="input-text" placeholder="@" name="email" id="email" value="{{old('email')}}">
 			</div>
 		</div>
-		<div class="row cl">
-			<label class="form-label col-xs-4 col-sm-3">角色：</label>
-			<div class="formControls col-xs-8 col-sm-9"> <span class="select-box" style="width:150px;">
-				<select class="select" name="adminRole" size="1">
-					<option value="0">超级管理员</option>
-					<option value="1">总编</option>
-					<option value="2">栏目主辑</option>
-					<option value="3">栏目编辑</option>
-				</select>
-				</span> </div>
-		</div>
 		<!-- <div class="row cl">
 			<label class="form-label col-xs-4 col-sm-3">备注：</label>
 			<div class="formControls col-xs-8 col-sm-9">

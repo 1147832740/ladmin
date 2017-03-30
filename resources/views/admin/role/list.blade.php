@@ -44,12 +44,13 @@
 			<table class="table table-border table-bordered table-bg">
 				<thead>
 					<tr>
-						<th scope="col" colspan="7">角色列表</th>
+						<th scope="col" colspan="8">角色列表</th>
 					</tr>
 					<tr class="text-c">
 						<th width="25"><input type="checkbox" name="count_checkbox" value=""></th>
 						<th width="40">ID</th>
 						<th width="150">角色名称</th>
+						<th width="150">所属管理员</th>
 						<th width="130">加入时间</th>
 						<th width="130">修改时间</th>
 						<th width="100">是否已启用</th>
@@ -62,6 +63,7 @@
 						<td><input type="checkbox" value="{{$v['id']}}" name="id[]"></td>
 						<td>{{$v['id']}}</td>
 						<td>{{$v['name']}}</td>
+						<td>{{$v['admin']->pluck('username')->implode(' , ')}}</td>
 						<td>{{$v['created_at']}}</td>
 						<td>{{$v['updated_at']}}</td>
 						<td class="td-status">@if($v['status'])<span class="label label-success radius">已启用</span>@else<span class="label radius">已停用</span>@endif</td>
@@ -70,6 +72,7 @@
 							<a title="编辑" href="javascript:;" onclick="role_edit('角色编辑','{{adm_url('role/edit',$v['id'])}}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
 							<a title="删除" href="javascript:;" onclick="role_del(this,{{$v['id']}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
 							<a title="编辑权限" href="javascript:;" onclick="role_permission('编辑权限','{{adm_url('role/permission',$v['id'])}}','500','700')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑权限</a>
+							<a title="编辑用户" href="javascript:;" onclick="role_permission('编辑用户','{{adm_url('role/admin',$v['id'])}}','500','600')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑用户</a>
 						</td>
 					</tr>
 					@endforeach
