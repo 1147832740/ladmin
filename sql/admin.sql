@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-03-30 18:12:00
+Date: 2017-03-31 15:30:15
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,9 +37,9 @@ CREATE TABLE `adm_admins` (
 -- ----------------------------
 -- Records of adm_admins
 -- ----------------------------
-INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'l3mYG8RxcEUDA1y4wglufskyUe1ldcgvf8zkuEFzW5PQoiyBo41Z2b5FpfXv', null, '2017-03-27 13:42:24');
+INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'gcxtpVixYcIpo0g2XuraFxpSa0SKpcXk5ILvwyQPNNPBd7pWXDpv9o0cgzqP', null, '2017-03-31 14:33:35');
 INSERT INTO `adm_admins` VALUES ('12', 'test', 'test123', '测试账号', 'test@q.com', '1', null, '2017-03-23 07:52:17', '2017-03-24 10:58:02');
-INSERT INTO `adm_admins` VALUES ('13', 'content', '123456', '内容管理1', '1@q.com', '1', null, '2017-03-30 17:49:52', '2017-03-30 17:49:52');
+INSERT INTO `adm_admins` VALUES ('13', 'content', '$2y$10$k4P0WdkTKFIkywvrMfQHA.r8K79KX9UjyxFQ8pU414ggN8HRnG76S', '内容管理1', '1@q.com', '1', 'KaObgaDzVIuMVyL30xu4DK4rWNrzYHWyRpOjQ13VpIfChocLEBkhDRScHOQW', '2017-03-30 17:49:52', '2017-03-31 15:05:47');
 
 -- ----------------------------
 -- Table structure for adm_permissions
@@ -104,7 +104,7 @@ CREATE TABLE `adm_role_admin` (
 -- Records of adm_role_admin
 -- ----------------------------
 INSERT INTO `adm_role_admin` VALUES ('8', '22', '13', '2017-03-30 17:50:22');
-INSERT INTO `adm_role_admin` VALUES ('9', '1', '12', '2017-03-30 17:55:35');
+INSERT INTO `adm_role_admin` VALUES ('9', '1', '12', '2017-03-31 11:00:41');
 
 -- ----------------------------
 -- Table structure for adm_role_permission
@@ -116,11 +116,13 @@ CREATE TABLE `adm_role_permission` (
   `permission_id` int(11) NOT NULL COMMENT '权限id',
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='角色权限表';
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='角色权限表';
 
 -- ----------------------------
 -- Records of adm_role_permission
 -- ----------------------------
+INSERT INTO `adm_role_permission` VALUES ('8', '22', '9', '2017-03-31 14:32:58');
+INSERT INTO `adm_role_permission` VALUES ('9', '22', '10', '2017-03-31 14:32:58');
 
 -- ----------------------------
 -- Table structure for migrations

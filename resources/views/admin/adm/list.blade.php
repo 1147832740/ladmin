@@ -68,7 +68,7 @@
 						<td>{{$v['username']}}</td>
 						<td>{{$v['nickname']}}</td>
 						<td>{{$v['email']}}</td>
-						<td>{{$v['role']->pluck('name')->implode(',')}}</td>
+						<td>@foreach($v['role'] as $v2) <span class="btn btn-default radius size-S">{{$v2['name']}}</span> @endforeach</td>
 						<td>{{$v['created_at']}}</td>
 						<td>{{$v['updated_at']}}</td>
 						<td class="td-status">@if($v['status'])<span class="label label-success radius">已启用</span>@else<span class="label radius">已停用</span>@endif</td>

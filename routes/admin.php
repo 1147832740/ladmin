@@ -13,9 +13,9 @@
 
 Route::get('/login', 'LoginController@login_show')->name('login');
 Route::post('/login', 'LoginController@login');
+Route::get('/logout', 'LoginController@logout');
 
 Route::group(['middleware'=>['auth:admin','menuPermission']],function(){
-	Route::get('/logout', 'LoginController@logout');
 	
 	Route::get('/', function(){
 		return view("admin.index.index");
@@ -41,6 +41,7 @@ Route::group(['middleware'=>['auth:admin','menuPermission']],function(){
 	Route::post('/role/del',"RoleController@del");
 	Route::get('/role/permission/{id}',"RoleController@permission");
 	Route::get('/role/admin/{id}',"RoleController@admin");
+	Route::post('/role/permission_attach',"RoleController@permission_attach");
 	Route::post('/role/admin_attach',"RoleController@admin_attach");
 
 	//权限 相关

@@ -153,11 +153,44 @@ class RoleController extends Controller
     		return response()->json(['status'=>0,'info'=>'丢失id']);
     	}
 
+    	$role=Role::find($id);
+
         $where=array(['pid',0]);
     	$first=Permission::where($where)->orderBy('sort','desc')->get();
         $data['permission']=get_permission_list($first,array());
+        $data['role_permission']=$role->permission()->get();
+    	$data['id']=$id;
 
     	return view('admin.role.permission',$data);
+    }
+
+    /**
+     * 绑定权限
+     */
+    public function permission_attach(Request $request)
+    {
+    	$input=$request->all();
+    	if((isset($input['permission_id']) && !is_array($input['permission_id'])) || empty($input['id'])){
+    		return response()->json(['status'=>0,'info'=>'数据错误']);
+    	}
+
+    	$role=Role::find($input['id']);
+
+    	$data=[];
+    	if(isset($input['permission_id'])){
+	    	foreach ($input['permission_id'] as $key => $value) {
+	    		if($value){
+	    			$data[$value]=['updated_at' => date("Y-m-d H:i:s")];
+	    		}
+	    	}
+    	}    	
+
+    	$res=$role->permission()->sync($data);
+    	if($res){
+    		return response()->json(['status'=>1,'info'=>'修改成功']);
+    	}else{
+    		return response()->json(['status'=>0,'info'=>'修改失败']);
+    	}
     }
 
     /**
