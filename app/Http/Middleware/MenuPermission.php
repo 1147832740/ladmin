@@ -26,9 +26,10 @@ class MenuPermission
         // dd($action_method_str);
         if($user['id']!=SUPER_ADMIN_ID){
             //判断用户是否具有当前路由权限
-            if($action_method_str!='admin'){
+            $no_judge=['admin','login'];
+            if(!in_array($action_method_str,$no_judge)){
                 if(!Gate::allows($action_method_str,$info)){
-                    dd('error');
+                    return response()->view('errors.forbid');
                 }
             }            
         }
