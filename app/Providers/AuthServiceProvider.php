@@ -29,10 +29,6 @@ class AuthServiceProvider extends ServiceProvider
         $permission=Permission::get();
         foreach ($permission as $key => $value) {
             Gate::define($value['uri'],function($user,$obj){
-                if($obj['uri']=='logout'){
-                    return false;
-                }
-
                 if(!$obj['status']){
                     return false;
                 }

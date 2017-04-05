@@ -19,13 +19,7 @@
 
 @section('content')
 <section class="Hui-article-box">
-	<nav class="breadcrumb"><i class="Hui-iconfont">&#xe67f;</i> 首页
-		<span class="c-gray en">&gt;</span>
-		管理员管理
-		<span class="c-gray en">&gt;</span>
-		管理员列表
-		<a class="btn btn-success radius r" style="line-height:1.6em;margin-top:3px" href="javascript:location.replace(location.href);" title="刷新" ><i class="Hui-iconfont">&#xe68f;</i></a>
-	</nav>
+	@include('admin.small_nav')
 	<div class="Hui-article">
 		<article class="cl pd-20">
 			<div class="text-c"> 日期范围：
@@ -42,7 +36,7 @@
 				</span>
 				<span class="r">共有数据：<strong>54</strong> 条</span>
 			</div>
-			<table class="table table-border table-bordered table-bg">
+			<table class="table table-border table-bordered table-bg table-sort">
 				<thead>
 					<tr>
 						<th scope="col" colspan="10">管理员列表</th>
@@ -108,6 +102,15 @@
 <script type="text/javascript" src="{{asset('/admin_static/lib/datatables/1.10.0/jquery.dataTables.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/admin_static/lib/laypage/1.2/laypage.js')}}"></script>
 <script type="text/javascript">
+$('.table-sort').dataTable({
+	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
+	"bStateSave": true,//状态保存
+	"aoColumnDefs": [
+		//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
+		{"orderable":false,"aTargets":[0,8]}// 不参与排序的列
+	]
+});
+
 /*
 	参数解释：
 	title	标题

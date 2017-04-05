@@ -19,7 +19,7 @@ function adm_url($uri='',$parameter=array())
 /**
  * 获取父子级权限列表
  */
-function get_permission_list($data=array(),$new_data=array(),$level=-1,$action_method='',$id=0)
+function get_permission_list($data=array(),$new_data=array(),$level=-1,$action_method='',$id=0,$request=null)
 {
     if(!empty($data)){
         $level++;
@@ -28,8 +28,14 @@ function get_permission_list($data=array(),$new_data=array(),$level=-1,$action_m
             $value['current']=0;
         	if($value['id']==$id){
             	$value['current']=1;
+            	if(!empty($request)){
+        			$request->attributes->set('action_title',$value['title']);
+            	}
         	}else if($value['uri']==$action_method){
             	$value['current']=1;
+            	if(!empty($request)){
+        			$request->attributes->set('method_title',$value['title']);
+            	}
         	}
 
             $value['level']=$level;
@@ -40,7 +46,7 @@ function get_permission_list($data=array(),$new_data=array(),$level=-1,$action_m
             	$where[]=['status',1];
             }
             $res=Permission::where($where)->orderBy('sort','desc')->get();
-            $new_data=get_permission_list($res,$new_data,$level,$action_method,$id);
+            $new_data=get_permission_list($res,$new_data,$level,$action_method,$id,$request);
         }
         return $new_data;
     }else{

@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Gate;
 use Closure;
+use Request;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use \App\Model\PermissionModel as Permission;
 
@@ -23,27 +25,29 @@ class MenuPermission
         //获取当前路由菜单
         $action_method_str=str_replace('admin/','',$request->path());
         $info=Permission::where('uri',$action_method_str)->first();
-        // dd($action_method_str);
-        if($user['id']!=SUPER_ADMIN_ID){
-            //判断用户是否具有当前路由权限
-            $no_judge=['admin','login'];
+
+        //获取菜单
+        $menu=$this->get_menu($action_method_str,$info['pid'],$request);
+        $request->attributes->set('admin_menu',$menu);
+
+        //让404页面重新匹配路由
+        Route::getRoutes()->match($request);
+
+        //判断用户是否具有当前路由权限
+        if(!empty($user) && $user['id']!=SUPER_ADMIN_ID){
+            //定义不需判断的路由
+            $no_judge=['admin','login','logout'];
             if(!in_array($action_method_str,$no_judge)){
-                if(!Gate::allows($action_method_str,$info)){
-                    return response()->view('errors.forbid');
+                if(!empty($info)){
+                    if(!Gate::allows($action_method_str,$info)){
+                        return response()->view('errors.forbid');
+                    }
                 }
-            }            
+            }
         }
 
 
         
-        $action_method=explode('/',$action_method_str);
-        $request->attributes->set('action_method',$action_method_str);
-        $request->attributes->set('action_name',isset($action_method[0])?:'');
-        $request->attributes->set('method_name',isset($action_method[1])?:'');
-
-        //获取菜单
-        $menu=$this->get_menu($action_method_str,$info['pid']);
-        $request->attributes->set('admin_menu',$menu);
 
         return $next($request);
     }
@@ -52,9 +56,9 @@ class MenuPermission
      * 获取菜单
      * @return [type] [description]
      */
-    public function get_menu($action_method,$id)
+    public function get_menu($action_method,$id,$request)
     {
         $first=Permission::where([['pid',0],['status',1]])->orderBy('sort','desc')->get();
-        return get_permission_list($first,array(),-1,$action_method,$id);
+        return get_permission_list($first,array(),-1,$action_method,$id,$request);
     }
 }

@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-04-01 16:57:15
+Date: 2017-04-05 18:32:51
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -37,9 +37,9 @@ CREATE TABLE `adm_admins` (
 -- ----------------------------
 -- Records of adm_admins
 -- ----------------------------
-INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'IH5hfvV6yh4Pvj0MlmW935LFn55u7jymOlS9VN1SLjDjteMwiuHs5TtK0kqI', null, '2017-04-01 16:40:01');
+INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'LPKBDtMlnVIJ5uDbakbk4GUEo1d4v35uMPrDK2trEaVJXEnyH9ldxVDiAafg', null, '2017-04-05 15:20:58');
 INSERT INTO `adm_admins` VALUES ('12', 'test', 'test123', '测试账号', 'test@q.com', '1', null, '2017-03-23 07:52:17', '2017-03-24 10:58:02');
-INSERT INTO `adm_admins` VALUES ('13', 'content', '$2y$10$k4P0WdkTKFIkywvrMfQHA.r8K79KX9UjyxFQ8pU414ggN8HRnG76S', '内容管理1', '1@q.com', '1', 'KaObgaDzVIuMVyL30xu4DK4rWNrzYHWyRpOjQ13VpIfChocLEBkhDRScHOQW', '2017-03-30 17:49:52', '2017-03-31 15:05:47');
+INSERT INTO `adm_admins` VALUES ('13', 'content', '$2y$10$k4P0WdkTKFIkywvrMfQHA.r8K79KX9UjyxFQ8pU414ggN8HRnG76S', '内容管理1', '1@q.com', '1', 'nld3xxbOSLElCQBl4wCMldV7doHzy9S5lYJ56QoMYF9G3aAIUgz3AUm3Jt4C', '2017-03-30 17:49:52', '2017-04-05 15:25:55');
 
 -- ----------------------------
 -- Table structure for adm_permissions

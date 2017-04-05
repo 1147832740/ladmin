@@ -13,10 +13,10 @@
 
 Route::get('/login', 'LoginController@login_show')->name('login');
 Route::post('/login', 'LoginController@login');
-Route::get('/logout', 'LoginController@logout');
 
 Route::group(['middleware'=>['auth:admin','menuPermission']],function(){
-	
+	Route::get('/logout', 'LoginController@logout');
+
 	Route::get('/', function(){
 		return view("admin.index.index");
 	});
