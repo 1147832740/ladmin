@@ -72,10 +72,8 @@ trait AuthenticatesUsers
      */
     protected function attemptLogin(Request $request)
     {
-        $where=$this->credentials($request);
-        $where['status']=1;
         return $this->guard()->attempt(
-            $where, $request->has('remember')
+            $this->credentials($request), $request->has('remember')
         );
     }
 

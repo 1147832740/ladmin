@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Request;
 use Illuminate\Support\Facades\Auth;
 use \App\Model\AdminModel as User;
+use \Yajra\Datatables\Facades\Datatables;
 
 class AdminController extends Controller
 {
@@ -15,8 +16,11 @@ class AdminController extends Controller
 	 */
     public function index()
     {
-    	$data['list']=User::with('role')->paginate(1);
-    	return view('admin.adm.list',$data);
+        if(Request::ajax()){
+            return Datatables::eloquent(User::with('role'))->make(true);
+        }else{
+            return view('admin.adm.list',[]);
+        }
     }
 
     /**

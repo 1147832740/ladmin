@@ -55,22 +55,7 @@
 					</tr>
 				</thead>
 				<tbody>
-					@foreach($list as $v)
-					<tr class="text-c">
-						<td><input type="checkbox" value="1" name=""></td>
-						<td>{{$v['id']}}</td>
-						<td>{{$v['username']}}</td>
-						<td>{{$v['nickname']}}</td>
-						<td>{{$v['email']}}</td>
-						<td>@foreach($v['role'] as $v2) <span class="btn btn-default radius size-S">{{$v2['name']}}</span> @endforeach</td>
-						<td>{{$v['created_at']}}</td>
-						<td>{{$v['updated_at']}}</td>
-						<td class="td-status">@if($v['status'])<span class="label label-success radius">已启用</span>@else<span class="label radius">已停用</span>@endif</td>
-						<td class="td-manage"><a style="text-decoration:none" onClick="@if($v['status'])admin_stop(this,{{$v['id']}}) @else admin_start(this,{{$v['id']}})@endif" href="javascript:;" title="停用"<i class="Hui-iconfont">@if($v['status']) &#xe631; @else &#xe6e1; @endif</i></a>
-							<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','{{adm_url('adm/edit',$v['id'])}}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-							<a title="删除" href="javascript:;" onclick="admin_del(this,{{$v['id']}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-					</tr>
-					@endforeach
+					
 					<!-- <tr class="text-c">
 						<td><input type="checkbox" value="2" name=""></td>
 						<td>2</td>
@@ -103,11 +88,17 @@
 <script type="text/javascript" src="{{asset('/admin_static/lib/laypage/1.2/laypage.js')}}"></script>
 <script type="text/javascript">
 $('.table-sort').dataTable({
-	"aaSorting": [[ 1, "desc" ]],//默认第几个排序
-	"bStateSave": true,//状态保存
-	"aoColumnDefs": [
+	processing:true,                     //加载进度
+	aaSorting: [[ 1, "desc" ]],          //默认第几个排序
+	bLengthChange: false,                //改变每页显示数据数量
+	bStateSave: true,                    //状态保存
+	bFilter: false,                      //过滤功能
+	serverSide:true,                     //服务器模式
+	ajax:'{{adm_url("adm/index")}}',
+
+	aoColumnDefs: [
 		//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		{"orderable":false,"aTargets":[0,8]}// 不参与排序的列
+		{orderable:false,aTargets:[0,8]}// 不参与排序的列
 	]
 });
 
