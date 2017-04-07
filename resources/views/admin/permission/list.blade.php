@@ -24,7 +24,7 @@
 		<article class="cl pd-20">
 			<div class="text-c">
 				<form action="{{adm_url('permission/index')}}">
-					<input type="text" class="input-text" style="width:250px" placeholder="输入权限名称" id="name" name="name" value="{{$input['name'] or ''}}">
+					<input type="text" class="input-text" style="width:250px" placeholder="输入权限名称" id="title" name="title" value="{{$input['title'] or ''}}">
 					<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜权限</button>
 				</form>				
 			</div>
@@ -33,7 +33,6 @@
 				<a href="javascript:;" onclick="more_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 				<a href="javascript:;" onclick="data_add('添加权限','{{adm_url('permission/add')}}','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加权限</a>
 				</span>
-				<span class="r">共有数据：<strong>54</strong> 条</span>
 			</div>
 			<table class="table table-border table-bordered table-bg">
 				<thead>

@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Request;
 use \App\Model\RoleModel as Role;
 use \App\Model\PermissionModel as Permission;
 use \App\Model\AdminModel as Admin;
 use Illuminate\Support\Facades\Route;
+use Datatables;
 
 class RoleController extends Controller
 {
@@ -15,20 +16,18 @@ class RoleController extends Controller
 	 * 角色列表
 	 * @return [type] [description]
 	 */
-    public function index(Request $request)
+    public function index(\Illuminate\Http\Request $request)
     {
-    	$input=$request->all();
-    	// dd($input);
-    	$where=array();
-		if(!empty($input['name'])){
-			if($key=='name'){
-				$where[]=array($key,'like','%'.$value.'%');
+    	if(Request::ajax()){
+    		$input=$request->all();
+	    	$where=array();
+			if(!empty($input['name'])){
+				$where[]=array('name','like','%'.$input['name'].'%');
 			}
-		}
-		
-    	$data['list']=Role::where($where)->with('admin')->get();
-    	$data['input']=$input;
-    	return view('admin.role.list',$data);
+            return Datatables::of(Role::where($where)->with('admin')->get())->make(true);
+        }else{
+    		return view('admin.role.list');
+        }
     }
 
     /**

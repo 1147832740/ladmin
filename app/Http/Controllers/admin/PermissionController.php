@@ -17,15 +17,10 @@ class PermissionController extends Controller
     {
         $input=$request->all();
         $where=array(['pid',0]);
-        foreach ($input as $key => $value) {
-            if(!empty($value)){
-                if($key=='name'){
-                    $where[]=array($key,'like','%'.$value.'%');
-                    continue;
-                }
-                $where[$key]=$value;
-            }
+        if(!empty($input['title'])){
+            $where[]=array('title','like','%'.$input['title'].'%');
         }
+        
         $first=Permission::where($where)->orderBy('sort','desc')->get();
         $data['list']=get_permission_list($first,array());
         $data['input']=$input;

@@ -34,7 +34,6 @@
 				<!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> -->
 				<a href="javascript:;" onclick="admin_add('添加管理员','{{adm_url('adm/add')}}','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加管理员</a>
 				</span>
-				<span class="r">共有数据：<strong>54</strong> 条</span>
 			</div>
 			<table class="table table-border table-bordered table-bg table-sort">
 				<thead>
@@ -54,22 +53,7 @@
 						<th width="100">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					
-					<!-- <tr class="text-c">
-						<td><input type="checkbox" value="2" name=""></td>
-						<td>2</td>
-						<td>zhangsan</td>
-						<td>13000000000</td>
-						<td>admin@mail.com</td>
-						<td>栏目编辑</td>
-						<td>2014-6-11 11:11:42</td>
-						<td class="td-status"><span class="label radius">已停用</span></td>
-						<td class="td-manage"><a style="text-decoration:none" onClick="admin_start(this,'10001')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
-							<a title="编辑" href="javascript:;" onclick="admin_edit('管理员编辑','admin-add.html','2','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-							<a title="删除" href="javascript:;" onclick="admin_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-					</tr> -->
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</article>
 	</div>
@@ -89,19 +73,47 @@
 <script type="text/javascript">
 $('.table-sort').dataTable({
 	processing:true,                     //加载进度
-	aaSorting: [[ 1, "desc" ]],          //默认第几个排序
-	bLengthChange: false,                //改变每页显示数据数量
-	bStateSave: true,                    //状态保存
-	bFilter: false,                      //过滤功能
+	paging:true,
+	sorting: [[ 1, "asc" ]],           //默认第几个排序
+	lengthChange: true,                 //改变每页显示数据数量
+	lengthMenu:[[10,15,20],[10,15,20]],
+	pageLength:10,                          //默认每页显示条数
+	button:['pageLength'],
+	stateSave: true,                      //状态保存
+	searching: false,                      //过滤功能
 	serverSide:true,                     //服务器模式
+	retrieve:true,
 	ajax:'{{adm_url("adm/index")}}',
 
-	aoColumnDefs: [
-		//{"bVisible": false, "aTargets": [ 3 ]} //控制列的隐藏显示
-		{orderable:false,aTargets:[0,8]}// 不参与排序的列
+	createdRow: function ( row, data, index ) {
+		$('td', row).addClass('text-c');
+	},
+	columnDefs: [ { orderable: false, targets: [ 0,$('thead .text-c th').length-1 ] },{defaultContent: "",targets: "_all"}],
+	columns: [
+		{data:"id",render:function(data,type,full){ return "<input type='checkbox' value='"+data+"' name='id[]'>" }},
+		{data:"id"},
+		{data:"username"},
+		{data:"nickname"},
+		{data:"email"},
+		{data:"role",render:function(data,type,full){
+			var str='';
+			for(var i in data){
+				str+=" <span class='btn btn-default radius size-S'>"+data[i].name+"</span> ";
+			}
+			return str;
+		}},
+		{data:"created_at"},
+		{data:"updated_at"},
+		{data:"status",render:function(data,type,full){
+			return data?"<span class='label label-success radius'>已启用</span>":"<span class='label radius'>已停用</span>";
+		}},
+		{data:"id",render:function(data,type,full){
+			return '<a style="text-decoration:none" onClick="'+(full.status?"admin_stop":"admin_start")+'(this,'+data+') href="javascript:;" title="'+(full.status?"禁用":"启用")+'"<i class="Hui-iconfont">'+(full.status?"&#xe631;":"&#xe6e1;")+'</i></a>\
+					<a title="编辑" href="javascript:;" onclick="admin_edit(\'管理员编辑\',\'{{adm_url('adm/edit')}}/'+data+'\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>\
+					<a title="删除" href="javascript:;" onclick="admin_del(this,'+data+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
+		}},
 	]
 });
-
 /*
 	参数解释：
 	title	标题

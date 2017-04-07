@@ -23,9 +23,9 @@
 	<div class="Hui-article">
 		<article class="cl pd-20">
 			<div class="text-c">
-				<form action="{{adm_url('role/index')}}">
-					<input type="text" class="input-text" style="width:250px" placeholder="输入角色名称" id="name" name="name" value="{{$input['name'] or ''}}">
-					<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜角色</button>
+				<form>
+					<input type="text" class="input-text" style="width:250px" placeholder="输入角色名称" id="name" name="name" value="">
+					<button type="submit" class="btn btn-success" id="submit" name=""><i class="Hui-iconfont">&#xe665;</i> 搜角色</button>
 				</form>				
 			</div>
 			<div class="cl pd-5 bg-1 bk-gray mt-20">
@@ -33,9 +33,8 @@
 				<a href="javascript:;" onclick="more_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>
 				<a href="javascript:;" onclick="role_add('添加角色','{{adm_url('role/add')}}','800','500')" class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 添加角色</a>
 				</span>
-				<span class="r">共有数据：<strong>54</strong> 条</span>
 			</div>
-			<table class="table table-border table-bordered table-bg">
+			<table class="table table-border table-bordered table-bg table-sort">
 				<thead>
 					<tr>
 						<th scope="col" colspan="8">角色列表</th>
@@ -51,39 +50,7 @@
 						<th width="100">操作</th>
 					</tr>
 				</thead>
-				<tbody>
-					@foreach($list as $v)
-					<tr class="text-c">
-						<td><input type="checkbox" value="{{$v['id']}}" name="id[]"></td>
-						<td>{{$v['id']}}</td>
-						<td>{{$v['name']}}</td>
-						<td>@foreach($v['admin'] as $v2) <span class="btn btn-default radius size-S">{{$v2['username']}}</span> @endforeach</td>
-						<td>{{$v['created_at']}}</td>
-						<td>{{$v['updated_at']}}</td>
-						<td class="td-status">@if($v['status'])<span class="label label-success radius">已启用</span>@else<span class="label radius">已停用</span>@endif</td>
-						<td class="td-manage">
-							<a style="text-decoration:none" onClick="role_status(this,{{$v['id']}},@if($v['status']) 0 @else 1 @endif)" href="javascript:;" title="@if($v['status'])停用 @else 禁用 @endif"<i class="Hui-iconfont">@if($v['status']) &#xe631; @else &#xe6e1; @endif</i></a>
-							<a title="编辑" href="javascript:;" onclick="role_edit('角色编辑','{{adm_url('role/edit',$v['id'])}}','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-							<a title="删除" href="javascript:;" onclick="role_del(this,{{$v['id']}})" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>
-							<a title="编辑权限" href="javascript:;" onclick="role_permission('编辑权限','{{adm_url('role/permission',$v['id'])}}','500','700')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑权限</a>
-							<a title="编辑用户" href="javascript:;" onclick="role_permission('编辑用户','{{adm_url('role/admin',$v['id'])}}','500','600')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑用户</a>
-						</td>
-					</tr>
-					@endforeach
-					<!-- <tr class="text-c">
-						<td><input type="checkbox" value="2" name=""></td>
-						<td>2</td>
-						<td>zhangsan</td>
-						<td>13000000000</td>
-						<td>admin@mail.com</td>
-						<td>栏目编辑</td>
-						<td>2014-6-11 11:11:42</td>
-						<td class="td-status"><span class="label radius">已停用</span></td>
-						<td class="td-manage"><a style="text-decoration:none" onClick="role_start(this,'10001')" href="javascript:;" title="启用"><i class="Hui-iconfont">&#xe615;</i></a>
-							<a title="编辑" href="javascript:;" onclick="role_edit('角色编辑','admin-add.html','2','800','500')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>
-							<a title="删除" href="javascript:;" onclick="role_del(this,'1')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a></td>
-					</tr> -->
-				</tbody>
+				<tbody></tbody>
 			</table>
 		</article>
 	</div>
@@ -101,6 +68,63 @@
 <script type="text/javascript" src="{{asset('/admin_static/lib/datatables/1.10.0/jquery.dataTables.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/admin_static/lib/laypage/1.2/laypage.js')}}"></script>
 <script type="text/javascript">
+var datatable=$('.table-sort').DataTable({
+	processing:true,                     //加载进度
+	paging:true,
+	sorting: [[ 1, "asc" ]],           //默认第几个排序
+	lengthChange: true,                 //改变每页显示数据数量
+	lengthMenu:[[10,15,20],[10,15,20]],
+	pageLength:10,                          //默认每页显示条数
+	button:['pageLength'],
+	stateSave: true,                      //状态保存
+	searching: false,                      //过滤功能
+	// dom:'',
+
+	serverSide:true,                     //服务器模式
+	retrieve:true,
+	ajax:{
+		url:'{{adm_url("role/index")}}',
+		data:function(d){
+			d.name=$('#name').val();
+			return d;
+		}
+	},
+
+	createdRow: function ( row, data, index ) {
+		$('td', row).addClass('text-c');
+	},
+	columnDefs: [ { orderable: false, targets: [ 0,3,$('thead .text-c th').length-1 ] },{defaultContent: "",targets: "_all"}],
+	columns: [
+		{data:"id",render:function(data,type,full){ return "<input type='checkbox' value='"+data+"' name='id[]'>" }},
+		{data:"id"},
+		{data:"name"},
+		{data:"admin",render:function(data,type,full){
+			var str='';
+			for(var i in data){
+				str+=" <span class='btn btn-default radius size-S'>"+data[i].username+"</span> ";
+			}
+			return str;
+		}},
+		{data:"created_at"},
+		{data:"updated_at"},
+		{data:"status",render:function(data,type,full){
+			return data?"<span class='label label-success radius'>已启用</span>":"<span class='label radius'>已停用</span>";
+		}},
+		{data:"id",render:function(data,type,full){
+			return '<a style="text-decoration:none" onClick="role_status(this,'+data+','+(full.status?0:1)+')" href="javascript:;" title="'+(full.status?"禁用":"启用")+'"<i class="Hui-iconfont">'+(full.status?"&#xe631;":"&#xe6e1;")+'</i></a>\
+					<a title="编辑" href="javascript:;" onclick="role_edit(\'角色编辑\',\'{{adm_url('role/edit')}}/'+data+'\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>\
+					<a title="删除" href="javascript:;" onclick="role_del(this,'+data+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>\
+					<a title="编辑权限" href="javascript:;" onclick="role_permission(\'编辑权限\',\'{{adm_url('role/permission')}}/'+data+'\',\'500\',\'700\')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑权限</a>\
+					<a title="编辑用户" href="javascript:;" onclick="role_permission(\'编辑用户\',\'{{adm_url('role/admin')}}/'+data+'\',\'500\',\'600\')" class="ml-5 btn btn-primary radius size-MINI" style="text-decoration:none">编辑用户</a>';
+		}},
+	]
+});
+$(function(){
+	$('form').submit(function(){
+		datatable.ajax.reload();
+		return false;
+	});
+});
 /*
 	参数解释：
 	title	标题

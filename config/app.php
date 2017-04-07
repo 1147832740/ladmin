@@ -178,6 +178,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+
+
+        //datatables  插件
+        Yajra\Datatables\DatatablesServiceProvider::class,
     ],
 
     /*
@@ -226,6 +231,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
+
+        //datatables 插件
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
     ],
 
 ];

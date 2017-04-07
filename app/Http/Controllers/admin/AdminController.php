@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Request;
 use Illuminate\Support\Facades\Auth;
 use \App\Model\AdminModel as User;
-use \Yajra\Datatables\Facades\Datatables;
+use Datatables;
 
 class AdminController extends Controller
 {
@@ -14,12 +14,23 @@ class AdminController extends Controller
 	 * 管理员列表
 	 * @return [type] [description]
 	 */
-    public function index()
+    public function index(\Illuminate\Http\Request $request)
     {
         if(Request::ajax()){
-            return Datatables::eloquent(User::with('role'))->make(true);
+            $input=$request->all();
+            // dd($input);
+            if(!empty($input['order'][0]['column']==5)){
+                $obj=User::with(['role'=>function($query){
+                    global $input;
+                dd($input);
+                    $query->orderBy('adm_roles.name',$input['order'][0]['dir']);
+                }]);
+            }else{
+                $obj=User::with('role');
+            }
+            return Datatables::of($obj->get())->make(true);
         }else{
-            return view('admin.adm.list',[]);
+            return view('admin.adm.list');
         }
     }
 
