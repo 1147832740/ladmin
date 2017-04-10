@@ -22,13 +22,16 @@
 	@include('admin.small_nav')
 	<div class="Hui-article">
 		<article class="cl pd-20">
-			<div class="text-c"> 日期范围：
-				<input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'datemax\')||\'%y-%M-%d\'}'})" id="datemin" class="input-text Wdate" style="width:120px;">
-				-
-				<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'datemin\')}',maxDate:'%y-%M-%d'})" id="datemax" class="input-text Wdate" style="width:120px;">
-				<input type="text" class="input-text" style="width:250px" placeholder="输入管理员名称" id="" name="">
-				<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
-			</div>
+			<form>
+				<div class="text-c">
+					 加入时间：
+					<input type="text" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'starttime\')||\'%y-%M-%d\'}'})" id="starttime" name="starttime" placeholder="开始时间" class="input-text Wdate" style="width:120px;">
+					-
+					<input type="text" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'endtime\')}',maxDate:'%y-%M-%d'})" id="endtime" placeholder="结束时间" class="input-text Wdate" style="width:120px;">
+					<input type="text" class="input-text" style="width:250px" placeholder="输入用户名" id="username" name="username">
+					<button type="submit" class="btn btn-success" id="" name=""><i class="Hui-iconfont">&#xe665;</i> 搜用户</button>
+				</div>
+			</form>
 			<div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
 				<!-- <a href="javascript:;" onclick="datadel()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a> -->
@@ -71,19 +74,28 @@
 <script type="text/javascript" src="{{asset('/admin_static/lib/datatables/1.10.0/jquery.dataTables.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/admin_static/lib/laypage/1.2/laypage.js')}}"></script>
 <script type="text/javascript">
-$('.table-sort').dataTable({
+var datatable=$('.table-sort').DataTable({
 	processing:true,                     //加载进度
 	paging:true,
 	sorting: [[ 1, "asc" ]],           //默认第几个排序
 	lengthChange: true,                 //改变每页显示数据数量
 	lengthMenu:[[10,15,20],[10,15,20]],
-	pageLength:10,                          //默认每页显示条数
+	pageLength:1,                          //默认每页显示条数
 	button:['pageLength'],
 	stateSave: true,                      //状态保存
 	searching: false,                      //过滤功能
+
 	serverSide:true,                     //服务器模式
 	retrieve:true,
-	ajax:'{{adm_url("adm/index")}}',
+	ajax:{
+		url:'{{adm_url("adm/index")}}',
+		data:function(d){
+			d.starttime=$('#starttime').val();
+			d.endtime=$('#endtime').val();
+			d.username=$('#username').val();
+			return d;
+		}
+	},
 
 	createdRow: function ( row, data, index ) {
 		$('td', row).addClass('text-c');
@@ -108,12 +120,19 @@ $('.table-sort').dataTable({
 			return data?"<span class='label label-success radius'>已启用</span>":"<span class='label radius'>已停用</span>";
 		}},
 		{data:"id",render:function(data,type,full){
-			return '<a style="text-decoration:none" onClick="'+(full.status?"admin_stop":"admin_start")+'(this,'+data+') href="javascript:;" title="'+(full.status?"禁用":"启用")+'"<i class="Hui-iconfont">'+(full.status?"&#xe631;":"&#xe6e1;")+'</i></a>\
+			return '<a style="text-decoration:none" onClick="'+(full.status?"admin_stop":"admin_start")+'(this,'+data+')" href="javascript:;" title="'+(full.status?"禁用":"启用")+'"<i class="Hui-iconfont">'+(full.status?"&#xe631;":"&#xe6e1;")+'</i></a>\
 					<a title="编辑" href="javascript:;" onclick="admin_edit(\'管理员编辑\',\'{{adm_url('adm/edit')}}/'+data+'\',\'800\',\'500\')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6df;</i></a>\
 					<a title="删除" href="javascript:;" onclick="admin_del(this,'+data+')" class="ml-5" style="text-decoration:none"><i class="Hui-iconfont">&#xe6e2;</i></a>';
 		}},
 	]
 });
+$(function(){
+	$('form').submit(function(){
+		datatable.ajax.reload();
+		return false;
+	});
+});
+
 /*
 	参数解释：
 	title	标题

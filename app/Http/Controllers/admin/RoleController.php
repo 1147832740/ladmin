@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Request;
+use Illuminate\Http\Request;
 use \App\Model\RoleModel as Role;
 use \App\Model\PermissionModel as Permission;
 use \App\Model\AdminModel as Admin;
@@ -16,9 +16,9 @@ class RoleController extends Controller
 	 * 角色列表
 	 * @return [type] [description]
 	 */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
-    	if(Request::ajax()){
+    	if(\Illuminate\Support\Facades\Request::ajax()){
     		$input=$request->all();
 	    	$where=array();
 			if(!empty($input['name'])){

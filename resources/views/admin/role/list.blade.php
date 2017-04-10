@@ -22,12 +22,12 @@
 	@include('admin.small_nav')
 	<div class="Hui-article">
 		<article class="cl pd-20">
-			<div class="text-c">
-				<form>
+			<form>
+				<div class="text-c">
 					<input type="text" class="input-text" style="width:250px" placeholder="输入角色名称" id="name" name="name" value="">
 					<button type="submit" class="btn btn-success" id="submit" name=""><i class="Hui-iconfont">&#xe665;</i> 搜角色</button>
-				</form>				
-			</div>
+				</div>
+			</form>				
 			<div class="cl pd-5 bg-1 bk-gray mt-20">
 				<span class="l">
 				<a href="javascript:;" onclick="more_del()" class="btn btn-danger radius"><i class="Hui-iconfont">&#xe6e2;</i> 批量删除</a>

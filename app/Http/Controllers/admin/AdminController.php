@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use \App\Model\AdminModel as User;
 use Datatables;
@@ -14,19 +14,27 @@ class AdminController extends Controller
 	 * 管理员列表
 	 * @return [type] [description]
 	 */
-    public function index(\Illuminate\Http\Request $request)
+    public function index(Request $request)
     {
-        if(Request::ajax()){
+        if(\Illuminate\Support\Facades\Request::ajax()){
             $input=$request->all();
-            // dd($input);
+
+            $where=[];
+            if(!empty($input['username'])){
+                $where[]=array('username','like','%'.$input['username'].'%');
+            }
+
+            $model=User::where($where);
+            if(!empty($input['starttime']) && !empty($input['endtime'])){
+                $model->whereBetween('created_at',[$input['starttime'],$input['endtime']]);
+            }
+
             if(!empty($input['order'][0]['column']==5)){
-                $obj=User::with(['role'=>function($query){
-                    global $input;
-                dd($input);
+                $obj=$model->with(['role'=>function($query) use($input){
                     $query->orderBy('adm_roles.name',$input['order'][0]['dir']);
                 }]);
             }else{
-                $obj=User::with('role');
+                $obj=$model->with('role');
             }
             return Datatables::of($obj->get())->make(true);
         }else{
