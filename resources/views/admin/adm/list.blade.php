@@ -50,6 +50,9 @@
 						<th width="90">昵称</th>
 						<th width="150">邮箱</th>
 						<th>角色</th>
+						<th>角色2</th>
+						<th>分值1</th>
+						<th>分值</th>
 						<th width="130">加入时间</th>
 						<th width="130">修改时间</th>
 						<th width="100">是否已启用</th>
@@ -80,7 +83,7 @@ var datatable=$('.table-sort').DataTable({
 	sorting: [[ 1, "asc" ]],           //默认第几个排序
 	lengthChange: true,                 //改变每页显示数据数量
 	lengthMenu:[[10,15,20],[10,15,20]],
-	pageLength:1,                          //默认每页显示条数
+	pageLength:10,                          //默认每页显示条数
 	button:['pageLength'],
 	stateSave: true,                      //状态保存
 	searching: false,                      //过滤功能
@@ -107,10 +110,19 @@ var datatable=$('.table-sort').DataTable({
 		{data:"username"},
 		{data:"nickname"},
 		{data:"email"},
-		{data:"role",render:function(data,type,full){
+		{data:"role",name:"adm_roles.name",render:function(data,type,full){
 			var str='';
 			for(var i in data){
 				str+=" <span class='btn btn-default radius size-S'>"+data[i].name+"</span> ";
+			}
+			return str;
+		}},
+		{data:"role_name",name:'adm_roles.role_name'},
+		{data:"sum_money",name:'adm_roles.sum_money'},
+		{data:"role",name:"adm_roles.money",render:function(data,type,full){
+			var str=0;
+			for(var i in data){
+				str+=data[i].money;
 			}
 			return str;
 		}},

@@ -183,6 +183,8 @@ return [
 
         //datatables  插件
         Yajra\Datatables\DatatablesServiceProvider::class,
+        //Debugbar   调试工具
+        Barryvdh\Debugbar\ServiceProvider::class,
     ],
 
     /*
@@ -234,6 +236,8 @@ return [
 
         //datatables 插件
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        //Debugbar 调试工具
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];
