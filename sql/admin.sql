@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50612
 File Encoding         : 65001
 
-Date: 2017-04-07 18:25:13
+Date: 2017-04-11 19:01:23
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -32,14 +32,15 @@ CREATE TABLE `adm_admins` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_username_unique` (`username`),
   UNIQUE KEY `users_email_unique` (`email`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='管理员表';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='管理员表';
 
 -- ----------------------------
 -- Records of adm_admins
 -- ----------------------------
 INSERT INTO `adm_admins` VALUES ('1', 'admin', '$2y$10$g4EjKti5CoEgzmDFng.5.OhkjFKzY6mX1V8iPyOOKJOoHalkH8.xS', '超级管理员', 'admin@admin.com', '1', 'LPKBDtMlnVIJ5uDbakbk4GUEo1d4v35uMPrDK2trEaVJXEnyH9ldxVDiAafg', null, '2017-04-05 15:20:58');
 INSERT INTO `adm_admins` VALUES ('12', 'test', 'test123', '测试账号', 'test@q.com', '1', null, '2017-03-23 07:52:17', '2017-03-24 10:58:02');
-INSERT INTO `adm_admins` VALUES ('13', 'content', '$2y$10$k4P0WdkTKFIkywvrMfQHA.r8K79KX9UjyxFQ8pU414ggN8HRnG76S', '内容管理1', '1@q.com', '1', 'qh0QD8nnilv87kXUZ2HcyTx6f7tondQZLMnOpCxSlSk4E5mSPIXQvz5DDjm6', '2017-03-30 17:49:52', '2017-04-06 11:19:31');
+INSERT INTO `adm_admins` VALUES ('13', 'content', '$2y$10$k4P0WdkTKFIkywvrMfQHA.r8K79KX9UjyxFQ8pU414ggN8HRnG76S', '内容管理1', '1@q.com', '1', 'qh0QD8nnilv87kXUZ2HcyTx6f7tondQZLMnOpCxSlSk4E5mSPIXQvz5DDjm6', '2017-03-30 17:49:52', '2017-04-10 10:39:55');
+INSERT INTO `adm_admins` VALUES ('14', 'test2', '123456', 'test2', '12@q.com', '1', null, '2017-04-11 18:39:00', '2017-04-11 18:39:00');
 
 -- ----------------------------
 -- Table structure for adm_permissions
@@ -79,14 +80,15 @@ CREATE TABLE `adm_roles` (
   `status` tinyint(1) NOT NULL DEFAULT '1' COMMENT '状态  1可用  0禁用',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
+  `money` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4 COMMENT='角色表';
 
 -- ----------------------------
 -- Records of adm_roles
 -- ----------------------------
-INSERT INTO `adm_roles` VALUES ('1', '超级管理员', '1', '2017-03-27 14:54:57', '2017-03-27 14:54:57');
-INSERT INTO `adm_roles` VALUES ('22', '内容管理员', '1', '2017-03-30 11:20:28', '2017-03-30 11:20:28');
+INSERT INTO `adm_roles` VALUES ('1', '超级管理员', '1', '2017-03-27 14:54:57', '2017-03-27 14:54:57', '100');
+INSERT INTO `adm_roles` VALUES ('22', '内容管理员', '1', '2017-03-30 11:20:28', '2017-03-30 11:20:28', '50');
 
 -- ----------------------------
 -- Table structure for adm_role_admin
@@ -98,13 +100,15 @@ CREATE TABLE `adm_role_admin` (
   `admin_id` int(11) NOT NULL COMMENT '管理员id',
   `updated_at` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COMMENT='管理员角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COMMENT='管理员角色表';
 
 -- ----------------------------
 -- Records of adm_role_admin
 -- ----------------------------
-INSERT INTO `adm_role_admin` VALUES ('8', '22', '13', '2017-03-30 17:50:22');
-INSERT INTO `adm_role_admin` VALUES ('9', '1', '12', '2017-03-31 11:00:41');
+INSERT INTO `adm_role_admin` VALUES ('8', '22', '13', '2017-04-11 18:40:07');
+INSERT INTO `adm_role_admin` VALUES ('9', '1', '12', '2017-04-11 18:29:40');
+INSERT INTO `adm_role_admin` VALUES ('11', '1', '13', '2017-04-11 18:29:40');
+INSERT INTO `adm_role_admin` VALUES ('12', '22', '14', '2017-04-11 18:40:07');
 
 -- ----------------------------
 -- Table structure for adm_role_permission
