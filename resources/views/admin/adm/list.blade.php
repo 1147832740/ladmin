@@ -50,8 +50,6 @@
 						<th width="90">昵称</th>
 						<th width="150">邮箱</th>
 						<th>角色</th>
-						<th>角色2</th>
-						<th>分值1</th>
 						<th>分值</th>
 						<th width="130">加入时间</th>
 						<th width="130">修改时间</th>
@@ -110,22 +108,23 @@ var datatable=$('.table-sort').DataTable({
 		{data:"username"},
 		{data:"nickname"},
 		{data:"email"},
-		{data:"role",name:"adm_roles.name",render:function(data,type,full){
-			var str='';
-			for(var i in data){
-				str+=" <span class='btn btn-default radius size-S'>"+data[i].name+"</span> ";
-			}
-			return str;
-		}},
-		{data:"role_name",name:'adm_roles.role_name'},
-		{data:"sum_money",name:'adm_roles.sum_money'},
-		{data:"role",name:"adm_roles.money",render:function(data,type,full){
-			var str=0;
-			for(var i in data){
-				str+=data[i].money;
-			}
-			return str;
-		}},
+		{data:"role",name:'admRoles.role'},
+		{data:"money",name:'admRoles.money'},
+		// {data:"adm_roles.role",name:"admRoles.name",render:function(data,type,full){
+		// 	var str='';
+		// 	for(var i in data){
+		// 		str+=" <span class='btn btn-default radius size-S'>"+data[i].name+"</span> ";
+		// 	}
+		// 	return str;
+		// }},
+		
+		// {data:"adm_roles.role",name:"admRoles.money",render:function(data,type,full){
+		// 	var str=0;
+		// 	for(var i in data){
+		// 		str+=data[i].money;
+		// 	}
+		// 	return str;
+		// }},
 		{data:"created_at"},
 		{data:"updated_at"},
 		{data:"status",render:function(data,type,full){

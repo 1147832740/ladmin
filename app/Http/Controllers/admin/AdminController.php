@@ -34,15 +34,15 @@ class AdminController extends Controller
             // return Datatables::of($obj->get())->orderColumn('role', '-role $1')->make(true);
                 
             // }else{
-            return Datatables::of($obj->select('adm_admins.*')->get())->addColumn('role_name',function(User $user){
+            return Datatables::of($obj)->addColumn('role',function(User $user){
                 return $user->role->map(function($role){
                     return " <span class='btn btn-default radius size-S'>".$role->name."</span> ";
                 })->implode('');
-            })->addColumn('sum_money',function(User $user){
+            })->addColumn('money',function(User $user){
                 return $user->role->map(function($role){
                     return $role->money;
                 })->sum();
-            })->orderColumn('sum_money','aa qwer')->make(true);
+            })->make(true);
                 
             // }
         }else{
