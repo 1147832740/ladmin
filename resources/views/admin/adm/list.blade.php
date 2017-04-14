@@ -105,7 +105,7 @@ var datatable=$('.table-sort').DataTable({
 		{data:"id",name:'id',render:function(data,type,full){ return "<input type='checkbox' value='"+data+"' name='id[]'>" }},
 		{data:"id",name:'id'},
 		{data:"username"},
-		{data:"nickname"},
+		{data:"nickname",name:'nickname'},
 		{data:"email"},
 		{data:"role",orderable:false,render:function(data,type,full){
 			var str='';
