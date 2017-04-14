@@ -30,21 +30,7 @@ class AdminController extends Controller
             }
 
             $obj=$model->with('role');
-            // if(!empty($input['order'][0]['column']==5)){
-            // return Datatables::of($obj->get())->orderColumn('role', '-role $1')->make(true);
-                
-            // }else{
-            return Datatables::of($obj)->addColumn('role',function(User $user){
-                return $user->role->map(function($role){
-                    return " <span class='btn btn-default radius size-S'>".$role->name."</span> ";
-                })->implode('');
-            })->addColumn('money',function(User $user){
-                return $user->role->map(function($role){
-                    return $role->money;
-                })->sum();
-            })->make(true);
-                
-            // }
+            return Datatables::of($obj)->make(true);
         }else{
             return view('admin.adm.list');
         }
