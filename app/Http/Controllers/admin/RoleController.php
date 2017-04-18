@@ -24,7 +24,7 @@ class RoleController extends Controller
 			if(!empty($input['name'])){
 				$where[]=array('name','like','%'.$input['name'].'%');
 			}
-            return Datatables::of(Role::where($where)->with('admin')->get())->make(true);
+            return Datatables::of(Role::where($where)->with('admin'))->orderColumn('name','convert(name using GBK) $1')->make(true);
         }else{
     		return view('admin.role.list');
         }

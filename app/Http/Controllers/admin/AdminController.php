@@ -30,7 +30,7 @@ class AdminController extends Controller
             }
 
             $obj=$model->with('role');
-            return Datatables::of($obj)->make(true);
+            return Datatables::of($obj)->orderColumn('nickname','convert(nickname using GBK) $1')->make(true);
         }else{
             return view('admin.adm.list');
         }
