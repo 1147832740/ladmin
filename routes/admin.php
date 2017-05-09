@@ -21,7 +21,6 @@ Route::group(['middleware'=>['auth:admin','menuPermission']],function(){
 		return view("admin.index.index");
 	});
 
-	Route::get('/test/{id}', "Index@test");
 	
 	//管理员 相关
 	Route::get('/adm/index',"AdminController@index");
