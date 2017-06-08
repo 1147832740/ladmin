@@ -17,6 +17,15 @@ function adm_url($uri='',$parameter=array())
 
 
 /**
+ * 构造get参数url
+ */
+function http_query($data)
+{
+    return empty($data)?'':'?'.http_build_query($data);
+}
+
+
+/**
  * 获取父子级权限列表
  */
 function get_permission_list($data=array(),$new_data=array(),$level=-1,$action_method='',$id=0,$request=null)
